@@ -1,5 +1,14 @@
 from django import forms
-from .models import Empresa, Gasto, Venta, Producto, Compra, CuentaContable
+from .models import (
+    Empresa,
+    Gasto,
+    Venta,
+    Producto,
+    Compra,
+    CuentaContable,
+    MovimientoContable,
+    Usuario,
+)
 
 
 # === FORMULARIO EMPRESA ===
@@ -64,20 +73,6 @@ class VentaForm(forms.ModelForm):
             instancia.save()
         return instancia
 
-    def clean_total(self):
-        total = self.cleaned_data.get('total')
-        if total is None or total <= 0:
-            raise forms.ValidationError("El total debe ser mayor a cero.")
-        return total
-
-    def save(self, commit=True):
-        instancia = super().save(commit=False)
-        if self.empresa:
-            instancia.empresa = self.empresa
-        if commit:
-            instancia.save()
-        return instancia
-
 # === FORMULARIO PRODUCTO ===
 class ProductoForm(forms.ModelForm):
     class Meta:
@@ -90,10 +85,10 @@ class ProductoForm(forms.ModelForm):
             raise forms.ValidationError("El nombre no puede estar vacío.")
         return nombre
 
-    def clean_codigo_barras(self):
-        codigo = self.cleaned_data.get('codigo_barras')
+    def clean_codigo(self):
+        codigo = self.cleaned_data.get('codigo')
         if not codigo or codigo.strip() == '':
-            raise forms.ValidationError("El código de barras no puede estar vacío.")
+            raise forms.ValidationError("El código no puede estar vacío.")
         return codigo
 
     def clean_precio_unitario(self):
@@ -166,7 +161,8 @@ class CuentaContableForm(forms.ModelForm):
             # 2) Registro el movimiento contable de saldo inicial
             MovimientoContable.objects.create(
                 empresa=self.empresa,
-                cuenta=cuenta,
+                cuenta_fk=cuenta,
+                cuenta_text=cuenta.nombre,
                 tipo='debito',  # débito refleja un aumento de activo
                 monto=self.cleaned_data['monto_inicial'],
                 descripcion="Saldo inicial de la cuenta"
@@ -186,9 +182,7 @@ class CapitalForm(forms.Form):
         widget=forms.TextInput(attrs={'class': 'form-control'})
     )
 
-from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import Empresa, Usuario
 
 class RegistroForm(UserCreationForm):
     email = forms.EmailField(label="Email")
