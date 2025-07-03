@@ -1,0 +1,34 @@
+{% extends 'empresa/base.html' %}
+
+{% block title %}Inventario{% endblock %}
+
+{% block content %}
+<h2>Inventario actual</h2>
+
+<table style="width: 100%; border-collapse: collapse;">
+    <thead>
+        <tr style="background-color: #4CAF50; color: white;">
+            <th style="padding: 8px;">Nombre</th>
+            <th style="padding: 8px;">Código de Barras</th>
+            <th style="padding: 8px;">Cantidad</th>
+            <th style="padding: 8px;">Precio Unitario</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for producto in productos %}
+        <tr>
+            <td style="padding: 8px;">{{ producto.nombre }}</td>
+            <td style="padding: 8px;">{{ producto.codigo_barras }}</td>
+            <td style="padding: 8px;">{{ producto.stock }}</td>
+            <td style="padding: 8px;">${{ producto.precio_unitario|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr style="background-color: #4CAF50; color: white;">
+            <td colspan="3" style="text-align: right; padding: 8px;"><strong>Total inventario:</strong></td>
+            <td style="padding: 8px;"><strong>${{ total_inventario|floatformat:2 }}</strong></td>
+        </tr>
+    </tfoot>
+</table>
+{% endblock %}

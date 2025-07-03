@@ -1,0 +1,24 @@
+{% extends 'empresa/base.html' %}
+
+{% block title %}Resumen Financiero{% endblock %}
+
+{% block content %}
+    <h2>Resumen Financiero</h2>
+
+    <table>
+        <tr>
+  <th>Total de Ventas</th>
+  <td style="color: green;"><strong>${{ ventas }}</strong></td>
+</tr>
+<tr>
+  <th>Total de Gastos</th>
+  <td style="color: red;"><strong>${{ gastos }}</strong></td>
+</tr>
+<tr>
+  <th>Utilidad Neta</th>
+  <td style="color: {% if utilidad_neta >= 0 %}green{% else %}red{% endif %};">
+    <strong>${{ utilidad_neta }}</strong>
+  </td>
+</tr>
+    </table>
+{% endblock %}

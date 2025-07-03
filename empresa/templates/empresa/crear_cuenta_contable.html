@@ -1,0 +1,32 @@
+{% extends 'empresa/base.html' %}
+
+{% block title %}Crear Cuenta Contable{% endblock %}
+
+{% block content %}
+<div class="container mt-5" style="max-width: 600px;">
+    <h2 class="mb-4 text-primary text-center">Nueva Cuenta Contable</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            {{ form.tipo.label_tag }}
+            {{ form.tipo }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.nombre.label_tag }}
+            {{ form.nombre }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.valor.label_tag }}
+            {{ form.valor }}
+        </div>
+
+        <div class="text-end">
+            <button type="submit" class="btn btn-success">Guardar cuenta</button>
+            <a href="{% url 'balance_general' %}" class="btn btn-secondary ms-2">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

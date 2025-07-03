@@ -1,0 +1,33 @@
+{% extends 'empresa/base.html' %}
+
+{% block title %}Estado de Resultados{% endblock %}
+
+{% block content %}
+<div class="container mt-5" style="max-width: 700px;">
+    <h2 class="text-center mb-4 text-primary">Estado de Resultados</h2>
+    <table class="table table-bordered">
+        <tbody>
+            <tr>
+                <th>Ingresos por Ventas</th>
+                <td class="text-success">${{ ventas|floatformat:2 }}</td>
+            </tr>
+            <tr>
+                <th>Costos (Compras)</th>
+                <td class="text-danger">${{ costos|floatformat:2 }}</td>
+            </tr>
+            <tr class="table-light">
+                <th>Utilidad Operativa</th>
+                <td class="fw-bold">${{ utilidad_operativa|floatformat:2 }}</td>
+            </tr>
+            <tr>
+                <th>Gastos Operativos</th>
+                <td class="text-danger">${{ gastos|floatformat:2 }}</td>
+            </tr>
+            <tr class="table-success">
+                <th>Utilidad Neta</th>
+                <td class="fw-bold text-success">${{ utilidad_neta|floatformat:2 }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}

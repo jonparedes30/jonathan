@@ -1,0 +1,52 @@
+{% extends "empresa/base.html" %}
+{% block content %}
+
+<h2>Dashboard Financiero</h2>
+
+<div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+  <div class="card">Ventas Totales: <strong>${{ total_ventas }}</strong></div>
+  <div class="card">Gastos Totales: <strong>${{ total_gastos }}</strong></div>
+  <div class="card">Utilidad Neta: <strong>${{ utilidad_neta }}</strong></div>
+  <div class="card">Rentabilidad: <strong>{{ rentabilidad }}%</strong></div>
+</div>
+
+<hr>
+
+<canvas id="graficoVentasGastos" width="400" height="200"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const labels = {{ labels_meses|safe }};
+    const ventasData = {{ ventas_mensuales|safe }};
+    const gastosData = {{ gastos_mensuales|safe }};
+
+    const ctx = document.getElementById('graficoVentasGastos').getContext('2d');
+    const chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Ventas',
+                    data: ventasData,
+                    backgroundColor: 'green'
+                },
+                {
+                    label: 'Gastos',
+                    data: gastosData,
+                    backgroundColor: 'red'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
+{% endblock %}

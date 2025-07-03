@@ -1,0 +1,58 @@
+{% extends "empresa/base.html" %}
+{% block content %}
+
+<h2>Gestión de Metas Empresariales</h2>
+
+<form method="post">
+    {% csrf_token %}
+    <label for="tipo">Tipo de meta:</label>
+    <select name="tipo" required>
+        <option value="ventas">Ventas</option>
+        <option value="utilidad">Utilidad</option>
+        <option value="ahorro">Ahorro</option>
+    </select><br><br>
+
+    <label for="objetivo_mensual">Objetivo ($):</label>
+    <input type="number" name="objetivo_mensual" step="0.01" required><br><br>
+
+    <label for="mes">Mes:</label>
+    <select name="mes" required>
+        {% for i in 1|to_int|to_range:12 %}
+        <option value="{{ i }}">{{ i }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="anio">Año:</label>
+    <input type="number" name="anio" value="2025" required><br><br>
+
+    <button type="submit">Guardar Meta</button>
+</form>
+
+<hr>
+
+<h3>Metas Registradas</h3>
+
+<table border="1" cellpadding="6" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Tipo</th>
+            <th>Objetivo</th>
+            <th>Mes/Año</th>
+            <th>Fecha Creación</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for meta in metas %}
+        <tr>
+            <td>{{ meta.get_tipo_display }}</td>
+            <td>${{ meta.objetivo_mensual }}</td>
+            <td>{{ meta.mes }}/{{ meta.anio }}</td>
+            <td>{{ meta.creado_en|date:"d/m/Y" }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4">No hay metas registradas aún.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

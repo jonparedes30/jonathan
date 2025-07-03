@@ -1,0 +1,66 @@
+{% extends 'empresa/base.html' %}
+
+{% block title %}Balance General{% endblock %}
+
+{% block content %}
+<div class="container mt-5" style="max-width: 800px;">
+  <h2 class="text-center mb-4 text-primary">Balance General</h2>
+
+  <table class="table table-bordered">
+    <thead class="table-light">
+      <tr>
+        <th>Cuenta</th>
+        <th class="text-end">Valor</th>
+      </tr>
+    </thead>
+    <tbody>
+      {# Activos #}
+      <tr><td class="fw-bold">Activos</td><td></td></tr>
+      {% for cuenta in activos %}
+      <tr>
+        <td>{{ cuenta.cuenta_fk__nombre }}</td>
+        <td class="text-end">${{ cuenta.valor|floatformat:2 }}</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="2" class="text-center">No hay activos registrados</td></tr>
+      {% endfor %}
+      <tr class="table-light">
+        <td class="fw-bold">Total Activos</td>
+        <td class="text-end fw-bold">${{ total_activos|floatformat:2 }}</td>
+      </tr>
+
+      <tr><td colspan="2"></td></tr>
+
+      {# Pasivos #}
+      <tr><td class="fw-bold">Pasivos</td><td></td></tr>
+      {% for cuenta in pasivos %}
+      <tr>
+        <td>{{ cuenta.cuenta_fk__nombre }}</td>
+        <td class="text-end text-danger">${{ cuenta.valor|floatformat:2 }}</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="2" class="text-center">No hay pasivos registrados</td></tr>
+      {% endfor %}
+      <tr class="table-light">
+        <td class="fw-bold">Total Pasivos</td>
+        <td class="text-end fw-bold text-danger">${{ total_pasivos|floatformat:2 }}</td>
+      </tr>
+
+      <tr><td colspan="2"></td></tr>
+
+      {# Patrimonio #}
+      <tr><td class="fw-bold">Patrimonio</td><td></td></tr>
+      <tr>
+        <td>Capital Neto</td>
+        <td class="text-end text-success">${{ total_patrimonio|floatformat:2 }}</td>
+      </tr>
+      <tr class="table-success">
+        <td class="fw-bold">Total Pasivos + Patrimonio</td>
+        <td class="text-end fw-bold">
+          ${{ total_pasivos|add:total_patrimonio|floatformat:2 }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends 'empresa/base.html' %}
+
+{% block title %}Registrar Producto{% endblock %}
+
+{% block content %}
+<div class="container mt-5" style="max-width: 600px;">
+    <h2 class="mb-4 text-success text-center">Registrar nuevo producto</h2>
+
+    <form method="post" class="border p-4 rounded bg-white shadow-sm">
+        {% csrf_token %}
+
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        {% for field in form %}
+            <div class="mb-3">
+                <label class="form-label">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <div id="sugerencia-info" class="form-text text-muted text-center mb-3"></div>
+
+        <button type="submit" class="btn btn-success w-100">Guardar Producto</button>
+    </form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const inputCodigo = document.getElementById('id_codigo_barras');
+    const inputNombre = document.getElementById('id_nombre');
+    const inputDescripcion = document.getElementById('id_descripcion');
+    const inputCategoria = document.getElementById('id_categoria');
+    const inputPrecio = document.getElementById('id_precio_unitario');
+    const sugerenciaInfo = document.getElementById('sugerencia-info');
+
+    inputCodigo.addEventListener('blur', function () {
+        const codigo = inputCodigo.value.trim();
+        if (!codigo) return;
+
+        // Solo muestra mensaje sin bloquear
+        sugerenciaInfo.textContent = "🔄 Buscando información del código...";
+
+        fetch(`/empresa/producto/info/?codigo=${codigo}`)
+            .then(response => {
+                if (!response.ok) throw new Error("No encontrado");
+                return response.json();
+            })
+            .then(data => {
+                // Solo llenamos si hay nombre sugerido
+                if (data.nombre && data.nombre !== "Producto encontrado") {
+                    if (inputNombre && !inputNombre.value) inputNombre.value = data.nombre;
+                    if (inputDescripcion && !inputDescripcion.value) inputDescripcion.value = data.descripcion || '';
+                    if (inputCategoria && !inputCategoria.value) inputCategoria.value = data.categoria || 'General';
+
+                    const precio = parseFloat(data.precio_unitario || 0);
+                    if (inputPrecio && !inputPrecio.value && precio > 0) {
+                        inputPrecio.value = precio.toFixed(2);
+                    }
+
+                    sugerenciaInfo.textContent = `🔍 Sugerido: ${data.nombre}`;
+                    sugerenciaInfo.style.color = 'gray';
+                } else {
+                    sugerenciaInfo.textContent = '⚠️ No se encontró información útil. Puedes ingresar los datos manualmente.';
+                    sugerenciaInfo.style.color = 'gray';
+                }
+            })
+            .catch(() => {
+                sugerenciaInfo.textContent = '⚠️ Código no encontrado en ninguna base. Puedes ingresar los datos manualmente.';
+                sugerenciaInfo.style.color = 'gray';
+            });
+    });
+});
+</script>
+{% endblock %}

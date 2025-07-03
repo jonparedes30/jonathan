@@ -1,0 +1,116 @@
+{% extends 'empresa/base.html' %}
+
+{% block title %}Registrar Venta{% endblock %}
+
+{% block content %}
+<div class="container mt-5" style="max-width: 600px;">
+    <h2 class="mb-4 text-success text-center">Registrar nueva venta</h2>
+
+    <form method="post" class="border p-4 rounded bg-white shadow-sm">
+        {% csrf_token %}
+        {% if form.errors %}
+            <div class="alert alert-danger"><ul class="mb-0">
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul></div>
+        {% endif %}
+
+        <!-- Código de Barras -->
+        <div class="mb-3">
+            <label for="codigo_barras" class="form-label">Código de Barras:</label>
+            <input type="text" id="codigo_barras" class="form-control" placeholder="Escanea o escribe el código">
+        </div>
+
+        <!-- Producto -->
+        <div class="mb-3">
+            {{ form.producto.label_tag }}
+            {{ form.producto }}
+        </div>
+
+        <!-- Cantidad -->
+        <div class="mb-3">
+            {{ form.cantidad.label_tag }}
+            {{ form.cantidad }}
+        </div>
+
+        <!-- Precio Unitario -->
+        <div class="mb-3">
+            <label for="precio_unitario" class="form-label">Precio Unitario:</label>
+            <input type="text" id="precio_unitario" class="form-control" readonly>
+        </div>
+
+        <!-- Total -->
+        <div class="mb-3">
+            {{ form.total.label_tag }}
+            {{ form.total }}
+        </div>
+
+        <!-- Stock info -->
+        <div id="stock-info" class="fw-bold mb-3 text-center"></div>
+
+        <button type="submit" class="btn btn-success w-100">Guardar Venta</button>
+    </form>
+</div>
+
+<script>
+    const productos = {};
+    for (const p of {{ productos_json|safe }}) {
+        productos[p.id] = p;
+    }
+
+    const selectProducto   = document.getElementById('id_producto');
+    const inputCodigo      = document.getElementById('codigo_barras');
+    const inputCantidad    = document.getElementById('id_cantidad');
+    const inputPrecio      = document.getElementById('precio_unitario');
+    const inputMonto       = document.getElementById('id_total');
+    const stockInfo        = document.getElementById('stock-info');
+
+    function actualizarVenta() {
+        const prodId   = selectProducto.value;
+        const prodData = productos[prodId] || {codigo:'', precio_unitario:0, stock:0};
+        const cantidad = parseInt(inputCantidad.value) || 0;
+
+        inputCodigo.value = prodData.codigo;
+        inputPrecio.value = Number(prodData.precio_unitario).toFixed(2);
+
+        // Stock
+        stockInfo.textContent = `🔍 Stock disponible: ${prodData.stock}`;
+        if (cantidad > prodData.stock) {
+            stockInfo.textContent += ' ⚠️ Excede stock';
+            stockInfo.classList.add('text-danger');
+            stockInfo.classList.remove('text-success');
+        } else {
+            stockInfo.classList.toggle('text-success', prodData.stock > 0);
+            stockInfo.classList.toggle('text-danger', prodData.stock === 0);
+        }
+
+        // Total
+        const total = prodData.precio_unitario * cantidad || 0;
+        inputMonto.value = total.toFixed(2);
+    }
+
+    selectProducto.addEventListener('change', actualizarVenta);
+    inputCantidad.addEventListener('input', actualizarVenta);
+    document.addEventListener('DOMContentLoaded', actualizarVenta);
+
+    // Pegar/escaneo de código
+    inputCodigo.addEventListener('blur', () => {
+        const code = inputCodigo.value.trim();
+        if (!code) return;
+        for (const id in productos) {
+            if (productos[id].codigo === code) {
+                selectProducto.value = id;
+                actualizarVenta();
+                return;
+            }
+        }
+        alert('Producto no encontrado');
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'empresa/base.html' %}
+{% load static %}
+{% block title %}Registro de Empresa y Usuario{% endblock %}
+
+{% block content %}
+<div class="container mt-5" style="max-width: 600px;">
+  <div class="card shadow-sm">
+    <div class="card-header bg-white text-center">
+      <h2>Registro de Empresa y Usuario</h2>
+    </div>
+    <div class="card-body">
+      <form method="post" novalidate>
+        {% csrf_token %}
+
+        {# Mensajes flash #}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+
+        {# Campos de usuario #}
+        {% for field in form %}
+          {# Cuando llegue a nuestro campo "nombre_empresa", insertamos un separador #}
+          {% if field.name == 'nombre_empresa' %}
+            <hr>
+            <h5 class="mt-4">🏭 Datos de la empresa</h5>
+          {% endif %}
+          <div class="mb-3">
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.help_text %}
+              <small class="form-text text-muted">{{ field.help_text }}</small>
+            {% endif %}
+            {% if field.errors %}
+              <div class="text-danger">
+                {% for error in field.errors %}
+                  <div>{{ error }}</div>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+
+        <button type="submit" class="btn btn-success w-100">Crear cuenta</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

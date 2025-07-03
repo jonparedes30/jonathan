@@ -1,0 +1,29 @@
+{% extends "empresa/base.html" %}
+{% block content %}
+
+<h2>Flujo de Caja Estimado</h2>
+
+<table border="1" cellpadding="8" cellspacing="0" style="width: 100%; text-align: center;">
+    <thead>
+        <tr style="background-color: #f2f2f2;">
+            <th>Mes</th>
+            <th>Entradas</th>
+            <th>Salidas</th>
+            <th>Flujo Neto</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for fila in flujo %}
+        <tr>
+            <td><strong>{{ fila.mes }}</strong></td>
+            <td>${{ fila.entradas }}</td>
+            <td>${{ fila.salidas }}</td>
+            <td style="color: {% if fila.neto < 0 %}red{% else %}green{% endif %};">
+                ${{ fila.neto }}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

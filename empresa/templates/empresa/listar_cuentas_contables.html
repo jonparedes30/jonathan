@@ -1,0 +1,6 @@
+<h2>Cuentas Contables</h2>
+<ul>
+  {% for cuenta in cuentas %}
+    <li>{{ cuenta.nombre }} - {{ cuenta.tipo }}: ${{ cuenta.valor }}</li>
+  {% endfor %}
+</ul>

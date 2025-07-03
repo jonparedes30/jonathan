@@ -1,0 +1,37 @@
+{% extends 'empresa/base.html' %}
+
+{% block title %}Listado de Gastos{% endblock %}
+
+{% block content %}
+    <h2>Gastos registrados</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Categoría</th>
+                <th>Monto</th>
+                <th>Descripción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for gasto in gastos %}
+            <tr>
+                <td>{{ gasto.fecha }}</td>
+                <td>{{ gasto.get_categoria_display }}</td>
+                <td>${{ gasto.monto }}</td>
+                <td>{{ gasto.descripcion|default:"—" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">No hay gastos registrados.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="2">Total</th>
+                <th colspan="2">${{ total }}</th>
+            </tr>
+        </tfoot>
+    </table>
+{% endblock %}

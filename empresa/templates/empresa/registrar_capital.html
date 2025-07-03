@@ -1,0 +1,31 @@
+{% extends 'empresa/base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Registrar Aporte de Capital</h4>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+
+                <!-- Campo: Monto -->
+                <div class="form-group mb-3">
+                    <label for="id_monto"><strong>Monto del capital aportado</strong></label>
+                    <input type="number" step="0.01" name="monto" id="id_monto" class="form-control" required>
+                </div>
+
+                <!-- Campo: Descripción -->
+                <div class="form-group mb-3">
+                    <label for="id_descripcion"><strong>Descripción</strong> <small class="text-muted">(opcional)</small></label>
+                    <input type="text" name="descripcion" id="id_descripcion" class="form-control">
+                </div>
+
+                <!-- Botones -->
+                <button type="submit" class="btn btn-success">Registrar Capital</button>
+                <a href="{% url 'balance_general' %}" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
