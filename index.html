@@ -181,12 +181,18 @@
 
     <script>
         const mockProducts = [
-            {id: 1, title: "iPhone 15 Pro Max 256GB", price: 999.99, merchant: "Best Buy", image: "https://picsum.photos/400/400?random=1", rating: 4.8, shipping: "Free shipping"},
-            {id: 2, title: "Samsung Galaxy S24 Ultra", price: 899.99, merchant: "Target", image: "https://picsum.photos/400/400?random=2", rating: 4.7, shipping: "Free shipping on orders $35+"},
-            {id: 3, title: "MacBook Air M2 13-inch", price: 1199.99, merchant: "Walmart", image: "https://picsum.photos/400/400?random=3", rating: 4.9, shipping: "Free 2-day shipping"},
-            {id: 4, title: "Nike Air Max 270", price: 129.99, merchant: "Nike", image: "https://picsum.photos/400/400?random=4", rating: 4.6, shipping: "Free shipping"},
-            {id: 5, title: "Samsung 55\" 4K Smart TV", price: 549.99, merchant: "Samsung", image: "https://picsum.photos/400/400?random=5", rating: 4.5, shipping: "Free shipping on orders $35+"},
-            {id: 6, title: "AirPods Pro (2nd Gen)", price: 199.99, merchant: "Best Buy", image: "https://picsum.photos/400/400?random=6", rating: 4.8, shipping: "Free shipping"}
+            {id: 1, title: "iPhone 15 Pro Max 256GB Natural Titanium", price: 1199.99, merchant: "Best Buy", image: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400&h=400&fit=crop", rating: 4.8, shipping: "Free shipping", originalPrice: 1299.99},
+            {id: 2, title: "Samsung Galaxy S24 Ultra 512GB Titanium Black", price: 1099.99, merchant: "Target", image: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=400&h=400&fit=crop", rating: 4.7, shipping: "Free shipping on orders $35+", originalPrice: 1199.99},
+            {id: 3, title: "MacBook Air M3 15-inch 512GB Space Gray", price: 1499.99, merchant: "Best Buy", image: "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=400&h=400&fit=crop", rating: 4.9, shipping: "Free 2-day shipping", originalPrice: 1599.99},
+            {id: 4, title: "Nike Air Max 270 React Black/White", price: 149.99, merchant: "Nike", image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop", rating: 4.6, shipping: "Free shipping", originalPrice: 179.99},
+            {id: 5, title: "Samsung 65\" Neo QLED 4K Smart TV QN90C", price: 1799.99, merchant: "Samsung", image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=400&h=400&fit=crop", rating: 4.5, shipping: "Free shipping", originalPrice: 2199.99},
+            {id: 6, title: "AirPods Pro (2nd Gen) with MagSafe Case", price: 199.99, merchant: "Target", image: "https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=400&h=400&fit=crop", rating: 4.8, shipping: "Free shipping on orders $35+", originalPrice: 249.99},
+            {id: 7, title: "Sony WH-1000XM5 Wireless Headphones Black", price: 329.99, merchant: "Best Buy", image: "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400&h=400&fit=crop", rating: 4.7, shipping: "Free shipping", originalPrice: 399.99},
+            {id: 8, title: "iPad Pro 12.9\" M2 256GB Space Gray", price: 999.99, merchant: "Target", image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400&h=400&fit=crop", rating: 4.8, shipping: "Free shipping on orders $35+", originalPrice: 1099.99},
+            {id: 9, title: "Adidas Ultraboost 22 Running Shoes Core Black", price: 139.99, merchant: "Adidas", image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=400&fit=crop", rating: 4.6, shipping: "Free shipping", originalPrice: 189.99},
+            {id: 10, title: "Nintendo Switch OLED Model White", price: 299.99, merchant: "Walmart", image: "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=400&h=400&fit=crop", rating: 4.7, shipping: "Free 2-day shipping", originalPrice: 349.99},
+            {id: 11, title: "Dell XPS 13 Plus Laptop Intel i7 16GB 512GB", price: 1299.99, merchant: "Best Buy", image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=400&fit=crop", rating: 4.5, shipping: "Free shipping", originalPrice: 1499.99},
+            {id: 12, title: "Apple Watch Series 9 45mm GPS Midnight", price: 379.99, merchant: "Target", image: "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?w=400&h=400&fit=crop", rating: 4.8, shipping: "Free shipping on orders $35+", originalPrice: 429.99}
         ];
 
         function searchProduct(term) {
@@ -261,11 +267,11 @@
                     <div class="mb-4">
                         <div class="flex items-baseline justify-between">
                             <span class="text-3xl font-bold text-green-600">$${product.price}</span>
-                            <span class="text-sm text-gray-500 line-through">$${(product.price * 1.2).toFixed(2)}</span>
+                            ${product.originalPrice ? `<span class="text-sm text-gray-500 line-through">$${product.originalPrice}</span>` : ''}
                         </div>
-                        <p class="text-sm text-green-600 font-medium mt-1">
-                            Ahorras $${((product.price * 1.2) - product.price).toFixed(2)}
-                        </p>
+                        ${product.originalPrice ? `<p class="text-sm text-green-600 font-medium mt-1">
+                            Ahorras $${(product.originalPrice - product.price).toFixed(2)}
+                        </p>` : ''}
                     </div>
                     
                     <div class="flex items-center mb-4 text-sm text-gray-600">
@@ -290,12 +296,18 @@
         function redirectToStore(productId) {
             // URLs reales que Skimlinks convertirá automáticamente
             const storeUrls = {
-                1: 'https://www.bestbuy.com/site/apple-iphone-15-pro-max/6525215.p',
-                2: 'https://www.target.com/p/samsung-galaxy-s24-ultra/-/A-89542156',
-                3: 'https://www.walmart.com/ip/Apple-MacBook-Air-13-inch/394772296',
-                4: 'https://www.nike.com/t/air-max-270-mens-shoes-KkLcGR',
-                5: 'https://www.samsung.com/us/televisions-home-theater/tvs/4k-uhd-tvs/',
-                6: 'https://www.bestbuy.com/site/apple-airpods-pro-2nd-generation/6418599.p'
+                1: 'https://www.bestbuy.com/site/apple-iphone-15-pro-max-256gb-natural-titanium/6525215.p',
+                2: 'https://www.target.com/p/samsung-galaxy-s24-ultra-512gb-titanium-black/-/A-89542156',
+                3: 'https://www.bestbuy.com/site/apple-macbook-air-15-inch-m3-512gb-space-gray/6534615.p',
+                4: 'https://www.nike.com/t/air-max-270-react-mens-shoes-CT1264',
+                5: 'https://www.samsung.com/us/televisions-home-theater/tvs/neo-qled-4k/65-class-qn90c-neo-qled-4k-smart-tv-2023-qn65qn90cafxza/',
+                6: 'https://www.target.com/p/apple-airpods-pro-2nd-generation-with-magsafe-case/-/A-85978622',
+                7: 'https://www.bestbuy.com/site/sony-wh-1000xm5-wireless-noise-canceling-over-the-ear-headphones-black/6505727.p',
+                8: 'https://www.target.com/p/apple-ipad-pro-12-9-inch-m2-256gb-space-gray/-/A-87654321',
+                9: 'https://www.adidas.com/us/ultraboost-22-shoes/GZ0127.html',
+                10: 'https://www.walmart.com/ip/Nintendo-Switch-OLED-Model-White/910582148',
+                11: 'https://www.bestbuy.com/site/dell-xps-13-plus-laptop-intel-core-i7-16gb-memory-512gb-ssd/6509615.p',
+                12: 'https://www.target.com/p/apple-watch-series-9-gps-45mm-midnight-aluminum-case/-/A-89876543'
             };
             
             const url = storeUrls[productId] || 'https://www.bestbuy.com';
