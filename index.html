@@ -186,12 +186,32 @@
             const productGrid = document.getElementById('productGrid');
             productGrid.innerHTML = '';
             
-            mockProducts.forEach(product => {
-                if (product.title.toLowerCase().includes(query.toLowerCase()) || query.toLowerCase().includes(product.title.split(' ')[0].toLowerCase())) {
+            // Si es búsqueda por defecto, mostrar todos los productos
+            if (query === 'Productos destacados') {
+                mockProducts.forEach(product => {
                     const productCard = createProductCard(product);
                     productGrid.appendChild(productCard);
+                });
+            } else {
+                // Búsqueda específica
+                const filteredProducts = mockProducts.filter(product => 
+                    product.title.toLowerCase().includes(query.toLowerCase()) || 
+                    query.toLowerCase().includes(product.title.split(' ')[0].toLowerCase())
+                );
+                
+                if (filteredProducts.length === 0) {
+                    // Si no hay coincidencias, mostrar todos
+                    mockProducts.forEach(product => {
+                        const productCard = createProductCard(product);
+                        productGrid.appendChild(productCard);
+                    });
+                } else {
+                    filteredProducts.forEach(product => {
+                        const productCard = createProductCard(product);
+                        productGrid.appendChild(productCard);
+                    });
                 }
-            });
+            }
         }
 
         function createProductCard(product) {
@@ -266,6 +286,11 @@
             const url = storeUrls[productId] || 'https://www.bestbuy.com';
             window.open(url, '_blank');
         }
+
+        // Mostrar productos por defecto al cargar
+        window.addEventListener('load', function() {
+            performSearch('Productos destacados');
+        });
 
         document.getElementById('searchForm').addEventListener('submit', function(e) {
             e.preventDefault();
