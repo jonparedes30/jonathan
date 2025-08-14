@@ -183,7 +183,7 @@
 
     <script>
         const mockProducts = [
-            {id: 1, title: "iPhone 15 Pro Max 256GB Natural Titanium", price: 1199.99, merchant: "Best Buy", image: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400&h=400&fit=crop", rating: 4.8, shipping: "Free shipping", originalPrice: 1299.99, url: "https://www.bestbuy.com/site/apple-iphone-15-pro-max-256gb-natural-titanium/6418599.p"},
+            {id: 1, title: "iPhone 15 Pro Max 256GB Natural Titanium", price: 1199.99, merchant: "Best Buy", image: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400&h=400&fit=crop", rating: 4.8, shipping: "Free shipping", originalPrice: 1299.99, url: "https://www.bestbuy.com/site/apple-iphone-15-pro-max-256gb-natural-titanium-unlocked/6418599.p"},
             {id: 2, title: "Samsung Galaxy S24 Ultra 512GB Titanium Black", price: 1099.99, merchant: "Amazon", image: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=400&h=400&fit=crop", rating: 4.7, shipping: "Free Prime shipping", originalPrice: 1199.99, url: "https://www.amazon.com/dp/B0CMDRCZBX"},
             {id: 3, title: "MacBook Air M3 15-inch 512GB Space Gray", price: 1499.99, merchant: "Best Buy", image: "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=400&h=400&fit=crop", rating: 4.9, shipping: "Free 2-day shipping", originalPrice: 1599.99, url: "https://www.bestbuy.com/site/apple-macbook-air-15-inch-laptop-apple-m3-chip-15-3-inch-liquid-retina-display-512gb-ssd-space-gray/6534615.p"},
             {id: 4, title: "Nike Air Max 270 React Black/White", price: 149.99, merchant: "Nike", image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop", rating: 4.6, shipping: "Free shipping", originalPrice: 179.99, url: "https://www.nike.com/t/air-max-270-react-mens-shoes-CT1264-001"},
@@ -193,7 +193,7 @@
             {id: 8, title: "iPad Pro 12.9\" M2 256GB Space Gray", price: 999.99, merchant: "Amazon", image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400&h=400&fit=crop", rating: 4.8, shipping: "Free Prime shipping", originalPrice: 1099.99, url: "https://www.amazon.com/dp/B0BJLXMZ4J"},
             {id: 9, title: "Adidas Ultraboost 22 Running Shoes Core Black", price: 139.99, merchant: "Adidas", image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=400&fit=crop", rating: 4.6, shipping: "Free shipping", originalPrice: 189.99, url: "https://www.adidas.com/us/ultraboost-22-shoes/GZ0127.html"},
             {id: 10, title: "Nintendo Switch OLED Model White", price: 299.99, merchant: "Walmart", image: "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=400&h=400&fit=crop", rating: 4.7, shipping: "Free 2-day shipping", originalPrice: 349.99, url: "https://www.walmart.com/ip/Nintendo-Switch-OLED-Model-White/910582148"},
-            {id: 11, title: "Dell XPS 13 Plus Laptop Intel i7 16GB 512GB", price: 1299.99, merchant: "eBay", image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=400&fit=crop", rating: 4.5, shipping: "Free shipping", originalPrice: 1499.99, url: "https://www.ebay.com/itm/325123456789"},
+            {id: 11, title: "Dell XPS 13 Plus Laptop Intel i7 16GB 512GB", price: 1299.99, merchant: "eBay", image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=400&fit=crop", rating: 4.5, shipping: "Envío a Ecuador: $25.99", originalPrice: 1499.99, url: "https://www.ebay.com/sch/i.html?_nkw=dell+xps+13+plus+laptop", ships_to_ecuador: true},
             {id: 12, title: "Apple Watch Series 9 45mm GPS Midnight", price: 379.99, merchant: "Target", image: "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?w=400&h=400&fit=crop", rating: 4.8, shipping: "Free shipping on orders $35+", originalPrice: 429.99, url: "https://www.target.com/p/apple-watch-series-9-gps-45mm-midnight-aluminum-case-with-midnight-sport-band-m-l/-/A-89876543"}
         ];
 
@@ -264,7 +264,7 @@
                     </div>
                     ${product.ships_to_ecuador ? '<div class="mb-4"><span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">🇪🇨 Envía a Ecuador</span></div>' : ''}
                     
-                    <a href="${product.url || getStoreUrl(product.id)}" target="_blank" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-4 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all font-semibold text-sm flex items-center justify-center space-x-2 no-underline">
+                    <a href="${product.url}" target="_blank" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-4 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all font-semibold text-sm flex items-center justify-center space-x-2 no-underline">
                         <span>Ver en ${product.merchant}</span>
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -276,25 +276,7 @@
             return card;
         }
 
-        function getStoreUrl(productId) {
-            // URLs reales que Skimlinks convertirá automáticamente
-            const storeUrls = {
-                1: 'https://www.bestbuy.com/site/apple-iphone-15-pro-max-256gb-natural-titanium/6525215.p',
-                2: 'https://www.target.com/p/samsung-galaxy-s24-ultra-512gb-titanium-black/-/A-89542156',
-                3: 'https://www.bestbuy.com/site/apple-macbook-air-15-inch-m3-512gb-space-gray/6534615.p',
-                4: 'https://www.nike.com/t/air-max-270-react-mens-shoes-CT1264',
-                5: 'https://www.samsung.com/us/televisions-home-theater/tvs/neo-qled-4k/65-class-qn90c-neo-qled-4k-smart-tv-2023-qn65qn90cafxza/',
-                6: 'https://www.target.com/p/apple-airpods-pro-2nd-generation-with-magsafe-case/-/A-85978622',
-                7: 'https://www.bestbuy.com/site/sony-wh-1000xm5-wireless-noise-canceling-over-the-ear-headphones-black/6505727.p',
-                8: 'https://www.target.com/p/apple-ipad-pro-12-9-inch-m2-256gb-space-gray/-/A-87654321',
-                9: 'https://www.adidas.com/us/ultraboost-22-shoes/GZ0127.html',
-                10: 'https://www.walmart.com/ip/Nintendo-Switch-OLED-Model-White/910582148',
-                11: 'https://www.bestbuy.com/site/dell-xps-13-plus-laptop-intel-core-i7-16gb-memory-512gb-ssd/6509615.p',
-                12: 'https://www.target.com/p/apple-watch-series-9-gps-45mm-midnight-aluminum-case/-/A-89876543'
-            };
-            
-            return storeUrls[productId] || 'https://www.bestbuy.com';
-        }
+
 
         // Cargar y mostrar todos los productos
         let allProducts = [];
