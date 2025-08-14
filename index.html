@@ -9,7 +9,6 @@
     <meta name="author" content="La Ventanita 593">
     <link rel="canonical" href="https://jonparedes30.github.io/jonathan/">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script type="text/javascript" src="https://s.skimresources.com/js/290360X1777366.skimlinks.js"></script>
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -281,19 +280,19 @@
                         ${product.shipping}
                     </div>
                     
-                    <button onclick="redirectToStore(${product.id})" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-4 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all font-semibold text-sm flex items-center justify-center space-x-2">
+                    <a href="${getStoreUrl(product.id)}" target="_blank" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-4 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all font-semibold text-sm flex items-center justify-center space-x-2 no-underline">
                         <span>Ver en ${product.merchant}</span>
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                         </svg>
-                    </button>
+                    </a>
                 </div>
             `;
             
             return card;
         }
 
-        function redirectToStore(productId) {
+        function getStoreUrl(productId) {
             // URLs reales que Skimlinks convertirá automáticamente
             const storeUrls = {
                 1: 'https://www.bestbuy.com/site/apple-iphone-15-pro-max-256gb-natural-titanium/6525215.p',
@@ -310,8 +309,7 @@
                 12: 'https://www.target.com/p/apple-watch-series-9-gps-45mm-midnight-aluminum-case/-/A-89876543'
             };
             
-            const url = storeUrls[productId] || 'https://www.bestbuy.com';
-            window.open(url, '_blank');
+            return storeUrls[productId] || 'https://www.bestbuy.com';
         }
 
         // Mostrar productos por defecto al cargar
@@ -327,5 +325,8 @@
             }
         });
     </script>
+    
+    <!-- Skimlinks Script - DEBE ir antes de </body> -->
+    <script type="text/javascript" src="https://s.skimresources.com/js/290360X1777366.skimlinks.js"></script>
 </body>
 </html>
