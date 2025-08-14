@@ -55,6 +55,7 @@
                 <div class="hidden md:flex items-center space-x-6 text-sm">
                     <a href="como-funciona.html" class="text-gray-600 hover:text-gray-900 font-medium">Cómo Funciona</a>
                     <a href="catalog.html" class="text-gray-600 hover:text-gray-900 font-medium">Catálogo</a>
+                    <span class="flex items-center text-green-600 font-medium">🇪🇨 Envía a Ecuador</span>
                     <span class="flex items-center text-gray-600"><span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>8+ Tiendas</span>
                 </div>
             </div>
@@ -188,7 +189,7 @@
             {id: 4, title: "Nike Air Max 270 React Black/White", price: 149.99, merchant: "Nike", image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop", rating: 4.6, shipping: "Free shipping", originalPrice: 179.99, url: "https://www.nike.com/t/air-max-270-react-mens-shoes-CT1264-001"},
             {id: 5, title: "Samsung 65\" Neo QLED 4K Smart TV QN90C", price: 1799.99, merchant: "Amazon", image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=400&h=400&fit=crop", rating: 4.5, shipping: "Free shipping", originalPrice: 2199.99, url: "https://www.amazon.com/dp/B0BVX7D41J"},
             {id: 6, title: "AirPods Pro (2nd Gen) with MagSafe Case", price: 199.99, merchant: "Target", image: "https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=400&h=400&fit=crop", rating: 4.8, shipping: "Free shipping on orders $35+", originalPrice: 249.99, url: "https://www.target.com/p/apple-airpods-pro-2nd-generation-with-magsafe-case-white/-/A-85978622"},
-            {id: 7, title: "Sony WH-1000XM5 Wireless Headphones Black", price: 329.99, merchant: "eBay", image: "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400&h=400&fit=crop", rating: 4.7, shipping: "Free shipping", originalPrice: 399.99, url: "https://www.ebay.com/itm/325968741234"},
+            {id: 7, title: "Sony WH-1000XM5 Wireless Headphones Black", price: 329.99, merchant: "eBay", image: "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400&h=400&fit=crop", rating: 4.7, shipping: "Envío gratis a Ecuador", originalPrice: 399.99, url: "https://www.ebay.com/itm/325968741234", ships_to_ecuador: true},
             {id: 8, title: "iPad Pro 12.9\" M2 256GB Space Gray", price: 999.99, merchant: "Amazon", image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400&h=400&fit=crop", rating: 4.8, shipping: "Free Prime shipping", originalPrice: 1099.99, url: "https://www.amazon.com/dp/B0BJLXMZ4J"},
             {id: 9, title: "Adidas Ultraboost 22 Running Shoes Core Black", price: 139.99, merchant: "Adidas", image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&h=400&fit=crop", rating: 4.6, shipping: "Free shipping", originalPrice: 189.99, url: "https://www.adidas.com/us/ultraboost-22-shoes/GZ0127.html"},
             {id: 10, title: "Nintendo Switch OLED Model White", price: 299.99, merchant: "Walmart", image: "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=400&h=400&fit=crop", rating: 4.7, shipping: "Free 2-day shipping", originalPrice: 349.99, url: "https://www.walmart.com/ip/Nintendo-Switch-OLED-Model-White/910582148"},
@@ -261,6 +262,7 @@
                         </svg>
                         ${product.shipping}
                     </div>
+                    ${product.ships_to_ecuador ? '<div class="mb-4"><span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">🇪🇨 Envía a Ecuador</span></div>' : ''}
                     
                     <a href="${product.url || getStoreUrl(product.id)}" target="_blank" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-4 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all font-semibold text-sm flex items-center justify-center space-x-2 no-underline">
                         <span>Ver en ${product.merchant}</span>

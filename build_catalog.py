@@ -45,18 +45,19 @@ def get_ebay_token():
     response.raise_for_status()
     return response.json()['access_token']
 
-def search_ebay_products(token, query, limit=6):
-    """Search eBay for products"""
+def search_ebay_products(token, query, limit=6, ship_to="EC"):
+    """Search eBay for products that ship to Ecuador"""
     url = "https://api.ebay.com/buy/browse/v1/item_summary/search"
     headers = {
         'Authorization': f'Bearer {token}',
-        'X-EBAY-C-MARKETPLACE-ID': EBAY_SITE
+        'X-EBAY-C-MARKETPLACE-ID': EBAY_SITE,
+        'X-EBAY-C-ENDUSERCTX': 'contextualLocation=country%3DEC'
     }
     params = {
         'q': query,
         'limit': limit,
         'sort': 'price',
-        'filter': 'conditionIds:{1000|1500|2000|2500|3000|4000|5000}',  # New and used
+        'filter': f'conditionIds:{{1000|1500|2000|2500|3000|4000|5000}},deliveryCountry:{ship_to}',
         'fieldgroups': 'MATCHING_ITEMS,EXTENDED'
     }
     
@@ -79,12 +80,30 @@ def normalize_product(item, category="Electronics"):
         elif 'thumbnailImages' in item and item['thumbnailImages']:
             image = item['thumbnailImages'][0]['imageUrl']
         
-        # Get shipping
-        shipping = "Standard shipping"
+        # Get shipping info for Ecuador
+        shipping = "Envía a Ecuador"
+        shipping_cost = None
+        eta = None
+        
         if 'shippingOptions' in item and item['shippingOptions']:
             shipping_option = item['shippingOptions'][0]
-            if shipping_option.get('shippingCost', {}).get('value', '0') == '0':
-                shipping = "Free shipping"
+            
+            # Get shipping cost
+            if 'shippingCost' in shipping_option and shipping_option['shippingCost']:
+                cost_value = shipping_option['shippingCost'].get('value', '0')
+                if float(cost_value) == 0:
+                    shipping = "Envío gratis a Ecuador"
+                else:
+                    shipping_cost = float(cost_value)
+                    shipping = f"Envío a Ecuador: ${shipping_cost:.2f}"
+            
+            # Get delivery estimate
+            if 'minEstimatedDeliveryDate' in shipping_option and 'maxEstimatedDeliveryDate' in shipping_option:
+                from datetime import datetime
+                min_date = datetime.fromisoformat(shipping_option['minEstimatedDeliveryDate'].replace('Z', '+00:00'))
+                max_date = datetime.fromisoformat(shipping_option['maxEstimatedDeliveryDate'].replace('Z', '+00:00'))
+                eta = f"ETA: {min_date.strftime('%d/%m')}-{max_date.strftime('%d/%m')}"
+                shipping += f" | {eta}"
         
         return {
             "id": item.get('itemId', ''),
@@ -96,7 +115,10 @@ def normalize_product(item, category="Electronics"):
             "rating": 4.5,  # Default rating
             "shipping": shipping,
             "url": item.get('itemWebUrl', ''),
-            "location": item.get('itemLocation', {}).get('country', 'US')
+            "location": item.get('itemLocation', {}).get('country', 'US'),
+            "ships_to_ecuador": True,
+            "shipping_cost": shipping_cost,
+            "eta": eta
         }
     except Exception as e:
         print(f"Error normalizing product: {e}")
