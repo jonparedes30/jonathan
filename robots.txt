@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jonparedes30.github.io/jonathan/sitemap.xml
